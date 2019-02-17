@@ -17,6 +17,7 @@ public class OnElectionAction implements OnElectionCallback {
     @Override
     public void onElectedToBeLeader() {
         serviceRegistry.unregisterFromCluster();
+        serviceRegistry.registerForUpdates();
     }
 
     @Override

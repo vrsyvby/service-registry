@@ -24,6 +24,16 @@ public class ServiceRegistry implements Watcher {
         System.out.println("Registered to service registry");
     }
 
+    public void registerForUpdates() {
+        try {
+            updateAddresses();
+        } catch (KeeperException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void createServiceRegistryZnode() {
         try {
             if (zooKeeper.exists(REGISTRY_ZNODE, false) == null) {
@@ -69,11 +79,11 @@ public class ServiceRegistry implements Watcher {
 
             byte [] addressBytes = zooKeeper.getData(workerFullPath, false, stat);
             String address = new String(addressBytes);
-            System.out.println("Discovered worker with address " + address);
             addresses.add(address);
         }
 
         this.allServiceAddresses = Collections.unmodifiableList(addresses);
+        System.out.println("The cluster addresses are: " + this.allServiceAddresses);
     }
 
     @Override
