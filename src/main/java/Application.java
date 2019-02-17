@@ -1,5 +1,4 @@
 import cluster.management.LeaderElection;
-import cluster.management.ServiceRegistry;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
@@ -13,17 +12,10 @@ public class Application implements Watcher {
     private ZooKeeper zooKeeper;
 
     public static void main(String[] args) throws IOException, InterruptedException, KeeperException {
-        int serverPort = 8080;
-        if (args.length == 1) {
-            serverPort = Integer.parseInt(args[0]);
-        }
         Application application = new Application();
         ZooKeeper zooKeeper = application.connectToZookeeper();
 
-        ServiceRegistry serviceRegistry = new ServiceRegistry(zooKeeper);
-        ParallelSearch parallelSearch = new ParallelSearch(zooKeeper, serviceRegistry, serverPort);
-
-        LeaderElection leaderElection = new LeaderElection(zooKeeper, parallelSearch);
+        LeaderElection leaderElection = new LeaderElection(zooKeeper);
         leaderElection.volunteerForLeadership();
         leaderElection.reelectLeader();
 
