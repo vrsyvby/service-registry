@@ -55,7 +55,7 @@ public class ServiceRegistry implements Watcher {
 
     public void unregisterFromCluster() {
         try {
-            if(currentZnode != null && zooKeeper.exists(currentZnode, false) != null) {
+            if (currentZnode != null && zooKeeper.exists(currentZnode, false) != null) {
                 zooKeeper.delete(currentZnode, -1);
             }
         } catch (KeeperException e) {
@@ -77,7 +77,7 @@ public class ServiceRegistry implements Watcher {
                 continue;
             }
 
-            byte [] addressBytes = zooKeeper.getData(workerFullPath, false, stat);
+            byte[] addressBytes = zooKeeper.getData(workerFullPath, false, stat);
             String address = new String(addressBytes);
             addresses.add(address);
         }
