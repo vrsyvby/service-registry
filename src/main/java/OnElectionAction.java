@@ -23,9 +23,8 @@ public class OnElectionAction implements OnElectionCallback {
     @Override
     public void onWorker() {
         try {
-            String currentServerAddress = String.format("http://%s:%d",
-                    InetAddress.getLocalHost().getCanonicalHostName(),
-                    port);
+            String currentServerAddress =
+                    String.format("http://%s:%d", InetAddress.getLocalHost().getCanonicalHostName(), port);
 
             serviceRegistry.registerToCluster(currentServerAddress);
         } catch (InterruptedException e) {
@@ -35,6 +34,5 @@ public class OnElectionAction implements OnElectionCallback {
         } catch (KeeperException e) {
             e.printStackTrace();
         }
-
     }
 }

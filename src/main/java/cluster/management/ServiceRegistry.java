@@ -19,6 +19,10 @@ public class ServiceRegistry implements Watcher {
     }
 
     public void registerToCluster(String metadata) throws KeeperException, InterruptedException {
+        if (this.currentZnode != null) {
+            System.out.println("Already registered to service registry");
+            return;
+        }
         this.currentZnode = zooKeeper.create(REGISTRY_ZNODE + "/n_", metadata.getBytes(),
                 ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
         System.out.println("Registered to service registry");
